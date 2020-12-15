@@ -20,12 +20,30 @@ class ShowTest < Minitest::Test
     assert_equal "NBC", @nbc.name
   end
 
-  def test_add_show_to_network
+  def test_add_shows_to_network
     assert_equal [], @nbc.shows
 
     @nbc.add_show(@knight_rider)
     @nbc.add_show(@parks_and_rec)
 
     assert_equal [@knight_rider, @parks_and_rec], @nbc.shows
+  end
+
+  def test_it_returns_main_characters
+    @nbc.add_show(@knight_rider)
+    @nbc.add_show(@parks_and_rec)
+
+    assert_equal [@kitt], @nbc.main_characters
+  end
+
+  def test_it_groups_actors_by_show
+    @nbc.add_show(@knight_rider)
+    @nbc.add_show(@parks_and_rec)
+
+    expected_hash = {@knight_rider => ["David Hasselhoff", "William Daniels"],
+                     @parks_and_rec => ["Amy Poehler", "Nick Offerman"]
+                    }
+
+    assert_equal expected_hash, @nbc.actors_by_show
   end
 end
